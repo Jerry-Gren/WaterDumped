@@ -1,0 +1,377 @@
+package com.xuehai.launcher.other;
+
+import android.content.Context;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelKt;
+import com.xuehai.launcher.App;
+import com.xuehai.launcher.common.base.AbsViewModel;
+import com.xuehai.launcher.common.base.BaseApplication;
+import com.xuehai.launcher.common.ext.LiveDataExtKt;
+import com.xuehai.launcher.common.ext.SingleLiveEvent;
+import com.xuehai.launcher.common.k.i;
+import com.xuehai.launcher.common.log.MyLog;
+import com.xuehai.launcher.common.n.g;
+import com.xuehai.launcher.common.util.f;
+import com.xuehai.launcher.common.util.l;
+import com.xuehai.launcher.common.util.m;
+import com.xuehai.launcher.natives.SecretJni;
+import g.a0.f;
+import g.a0.i.a.f;
+import g.a0.i.a.k;
+import g.d0.d.l;
+import g.h0.f;
+import g.n;
+import g.s;
+import g.v;
+import java.nio.charset.Charset;
+import kotlinx.coroutines.e0;
+import kotlinx.coroutines.t0;
+import org.apache.commons.codec.binary.Base32;
+import org.json.JSONObject;
+
+public final class InputViewModel extends AbsViewModel {
+  private final a a = new a();
+  
+  private final SingleLiveEvent<Boolean> b = new SingleLiveEvent();
+  
+  private final SingleLiveEvent<String> c = new SingleLiveEvent();
+  
+  private final SingleLiveEvent<Void> d = new SingleLiveEvent();
+  
+  private final f e;
+  
+  private String f;
+  
+  private boolean g;
+  
+  private final SingleLiveEvent<Void> h;
+  
+  private final Runnable i;
+  
+  public InputViewModel() {
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append(com.xuehai.launcher.common.h.a.e);
+    stringBuilder.append("/device");
+    this.e = new f(stringBuilder.toString(), "ls");
+    this.h = new SingleLiveEvent();
+    this.i = new d(this);
+  }
+  
+  public final void a() {
+    if (com.xuehai.launcher.common.m.c.a.b((Context)App.Companion.a()).a()) {
+      this.a.c();
+      return;
+    } 
+    this.a.a();
+    g.A(this.i, 1000L);
+  }
+  
+  public final void f() {
+    if (com.xuehai.launcher.common.m.c.a.b((Context)App.Companion.a()).a()) {
+      this.a.c();
+      return;
+    } 
+    this.a.b();
+    g.A(this.i, 1000L);
+  }
+  
+  public final SingleLiveEvent<Void> i() {
+    return this.h;
+  }
+  
+  public final SingleLiveEvent<Void> j() {
+    return this.d;
+  }
+  
+  public final SingleLiveEvent<String> k() {
+    return this.c;
+  }
+  
+  public final SingleLiveEvent<Boolean> l() {
+    return this.b;
+  }
+  
+  public final void m() {
+    boolean bool;
+    String str = this.e.a();
+    this.f = str;
+    if (str == null || str.length() == 0) {
+      bool = true;
+    } else {
+      bool = false;
+    } 
+    this.g = bool ^ true;
+  }
+  
+  public final void n() {
+    this.a.c();
+    LiveDataExtKt.set((MutableLiveData)this.b, Boolean.FALSE);
+    LiveDataExtKt.set((MutableLiveData)this.c, null);
+    LiveDataExtKt.action((MutableLiveData)this.h);
+  }
+  
+  public final void o(String paramString) {
+    l.c(paramString, "code");
+    kotlinx.coroutines.d.b(ViewModelKt.getViewModelScope((ViewModel)this), null, null, new c(this, paramString, null), 3, null);
+  }
+  
+  @f(c = "com.xuehai.launcher.other.InputViewModel$checkOffline$2", f = "InputViewModel.kt", l = {}, m = "invokeSuspend")
+  static final class a extends k implements g.d0.c.c<e0, g.a0.c<? super Boolean>, Object> {
+    private e0 d;
+    
+    int e;
+    
+    a(InputViewModel param1InputViewModel, String param1String, g.a0.c param1c) {
+      super(2, param1c);
+    }
+    
+    public final g.a0.c<v> create(Object param1Object, g.a0.c<?> param1c) {
+      l.c(param1c, "completion");
+      a a1 = new a(this.f, this.g, param1c);
+      a1.d = (e0)param1Object;
+      return (g.a0.c<v>)a1;
+    }
+    
+    public final Object invoke(Object param1Object1, Object param1Object2) {
+      return ((a)create(param1Object1, (g.a0.c)param1Object2)).invokeSuspend(v.a);
+    }
+    
+    public final Object invokeSuspend(Object param1Object) {
+      g.a0.h.b.c();
+      if (this.e == 0) {
+        char c1;
+        byte b1;
+        Object object;
+        String str1;
+        n.b(param1Object);
+        char c2 = '<';
+        param1Object = InputViewModel.b(this.f);
+        byte b2 = 6;
+        String str2 = this.g;
+        boolean bool2 = InputViewModel.d(this.f).d();
+        boolean bool1 = false;
+        if (bool2) {
+          object = param1Object;
+          b1 = b2;
+          str1 = str2;
+          c1 = c2;
+          if (f.v(this.g, "@", false, 2, null)) {
+            object = param1Object;
+            b1 = b2;
+            str1 = str2;
+            c1 = c2;
+            if (f.l(this.g, "@", false, 2, null)) {
+              c1 = 'ฐ';
+              str1 = f.t(this.g, "@", "", false, 4, null);
+              object = param1Object;
+              b1 = b2;
+            } 
+          } 
+        } else {
+          object = param1Object;
+          b1 = b2;
+          str1 = str2;
+          c1 = c2;
+          if (InputViewModel.d(this.f).e()) {
+            object = param1Object;
+            b1 = b2;
+            str1 = str2;
+            c1 = c2;
+            if (!InputViewModel.c(this.f)) {
+              object = new Base32();
+              if (param1Object == null)
+                param1Object = "1"; 
+              Charset charset = g.h0.c.a;
+              if (param1Object != null) {
+                param1Object = param1Object.getBytes(charset);
+                l.b(param1Object, "(this as java.lang.String).getBytes(charset)");
+                param1Object = object.encode((byte[])param1Object);
+                l.b(param1Object, "Base32().encode((secretKey ?: \"1\").toByteArray())");
+                object = new String((byte[])param1Object, g.h0.c.a);
+                c1 = '΄';
+                b1 = 8;
+                str1 = str2;
+              } else {
+                throw new s("null cannot be cast to non-null type java.lang.String");
+              } 
+            } 
+          } 
+        } 
+        SecretJni.a().verifyDevelopToken((Context)BaseApplication.Companion.getInstance(), this.g, null);
+        try {
+          bool2 = m.h((String)object, str1, c1, b1);
+          bool1 = bool2;
+        } catch (Exception exception) {}
+        return g.a0.i.a.b.a(bool1);
+      } 
+      throw new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
+    }
+  }
+  
+  @f(c = "com.xuehai.launcher.other.InputViewModel$checkOnline$2", f = "InputViewModel.kt", l = {}, m = "invokeSuspend")
+  static final class b extends k implements g.d0.c.c<e0, g.a0.c<? super Boolean>, Object> {
+    private e0 d;
+    
+    int e;
+    
+    b(String param1String, g.a0.c param1c) {
+      super(2, param1c);
+    }
+    
+    public final g.a0.c<v> create(Object param1Object, g.a0.c<?> param1c) {
+      l.c(param1c, "completion");
+      b b1 = new b(this.f, param1c);
+      b1.d = (e0)param1Object;
+      return (g.a0.c<v>)b1;
+    }
+    
+    public final Object invoke(Object param1Object1, Object param1Object2) {
+      return ((b)create(param1Object1, (g.a0.c)param1Object2)).invokeSuspend(v.a);
+    }
+    
+    public final Object invokeSuspend(Object param1Object) {
+      g.a0.h.b.c();
+      if (this.e == 0) {
+        n.b(param1Object);
+        param1Object = i.a.a(this.f);
+        boolean bool = param1Object.e();
+        boolean bool2 = false;
+        boolean bool1 = bool2;
+        if (bool)
+          try {
+            param1Object = l.b((new JSONObject(param1Object.b())).optString("status"));
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("checkBrushCode status: ");
+            stringBuilder.append((String)param1Object);
+            MyLog.i("[MDM]", stringBuilder.toString());
+            l.b(param1Object, "status");
+            int i = Integer.parseInt((String)param1Object);
+            bool1 = bool2;
+            if (i == 1)
+              bool1 = true; 
+          } catch (Exception exception) {
+            bool1 = bool2;
+          }  
+        return g.a0.i.a.b.a(bool1);
+      } 
+      throw new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
+    }
+  }
+  
+  @f(c = "com.xuehai.launcher.other.InputViewModel$onSure$1", f = "InputViewModel.kt", l = {79, 82}, m = "invokeSuspend")
+  static final class c extends k implements g.d0.c.c<e0, g.a0.c<? super v>, Object> {
+    private e0 d;
+    
+    Object e;
+    
+    int f;
+    
+    c(InputViewModel param1InputViewModel, String param1String, g.a0.c param1c) {
+      super(2, param1c);
+    }
+    
+    public final g.a0.c<v> create(Object param1Object, g.a0.c<?> param1c) {
+      l.c(param1c, "completion");
+      c c1 = new c(this.g, this.h, param1c);
+      c1.d = (e0)param1Object;
+      return (g.a0.c<v>)c1;
+    }
+    
+    public final Object invoke(Object param1Object1, Object param1Object2) {
+      return ((c)create(param1Object1, (g.a0.c)param1Object2)).invokeSuspend(v.a);
+    }
+    
+    public final Object invokeSuspend(Object param1Object) {
+      Object object = g.a0.h.b.c();
+      int i = this.f;
+      if (i != 0) {
+        if (i == 1 || i == 2) {
+          e0 e01 = (e0)this.e;
+          n.b(param1Object);
+        } else {
+          throw new IllegalStateException("call to 'resume' before 'invoke' with coroutine");
+        } 
+      } else {
+        n.b(param1Object);
+        param1Object = this.d;
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("验证动态码: ");
+        stringBuilder.append(this.h);
+        MyLog.i("[MDM]", stringBuilder.toString());
+        if (this.h.length() == 0) {
+          i = 1;
+        } else {
+          i = 0;
+        } 
+        if (i != 0) {
+          if (App.Companion.a().isDebug()) {
+            MyLog.i("Debug[MDM]", "当前为测试版本，输入空直接跳转解锁！");
+            LiveDataExtKt.action((MutableLiveData)this.g.j());
+          } else {
+            this.g.toastMessage("输入内容不可为空！");
+          } 
+          return v.a;
+        } 
+        if (com.xuehai.launcher.common.m.c.a.b((Context)App.Companion.a()).a()) {
+          InputViewModel inputViewModel = this.g;
+          String str = this.h;
+          this.e = param1Object;
+          this.f = 1;
+          Object object1 = inputViewModel.h(str, (g.a0.c<? super Boolean>)this);
+          param1Object = object1;
+          if (object1 == object)
+            return object; 
+        } else {
+          InputViewModel inputViewModel = this.g;
+          String str = this.h;
+          this.e = param1Object;
+          this.f = 2;
+          Object object1 = inputViewModel.g(str, (g.a0.c<? super Boolean>)this);
+          param1Object = object1;
+          if (object1 == object)
+            return object; 
+        } 
+      } 
+      boolean bool = ((Boolean)param1Object).booleanValue();
+      if (bool) {
+        LiveDataExtKt.action((MutableLiveData)this.g.j());
+      } else {
+        this.g.toastMessage("动态码错误！");
+      } 
+      LiveDataExtKt.action((MutableLiveData)this.g.i());
+      return v.a;
+    }
+  }
+  
+  static final class d implements Runnable {
+    d(InputViewModel param1InputViewModel) {}
+    
+    public final void run() {
+      boolean bool = InputViewModel.d(this.d).d();
+      Boolean bool2 = null;
+      if (bool) {
+        singleLiveEvent = this.d.l();
+        bool1 = Boolean.TRUE;
+      } else {
+        if (InputViewModel.d(this.d).e() && !InputViewModel.c(this.d)) {
+          LiveDataExtKt.set((MutableLiveData)this.d.l(), Boolean.FALSE);
+          InputViewModel.e(this.d, m.a(6));
+          SingleLiveEvent<String> singleLiveEvent1 = this.d.k();
+          String str = InputViewModel.b(this.d);
+        } else {
+          singleLiveEvent = this.d.l();
+          bool1 = Boolean.FALSE;
+          LiveDataExtKt.set((MutableLiveData)singleLiveEvent, bool1);
+          singleLiveEvent = (SingleLiveEvent)this.d.k();
+          bool1 = bool2;
+        } 
+        LiveDataExtKt.set((MutableLiveData)singleLiveEvent, bool1);
+        return;
+      } 
+      LiveDataExtKt.set((MutableLiveData)singleLiveEvent, bool1);
+      SingleLiveEvent<Boolean> singleLiveEvent = (SingleLiveEvent)this.d.k();
+      Boolean bool1 = bool2;
+    }
+  }
+}
